@@ -13,7 +13,7 @@ The goal is include all of the features available in the web interface such as r
 In your project's folder, run `npm i connectwise-control-api --save`. Then, in your project, include the following:
 
 ```
-const cc = require('./index')('https://yourinstance.screenconnect.com', 'user@domain.com', 'ReallyGoodPassword');
+const cc = require('connectwise-control-api')('https://yourinstance.screenconnect.com', 'user@domain.com', 'ReallyGoodPassword');
 ```
 
 # Functions
