@@ -8,6 +8,10 @@ This module is intended to help manage ConnectWise Control resources programmati
 
 The goal is include all of the features available in the web interface such as running commands, downloading agents, etc.
 
+# Requirements
+
+This project uses async/await, so I'd recommend using NodeJS 8.11.2 (LTS).
+
 # Getting Started
 
 In your project's folder, run `npm i connectwise-control-api --save`. Then, in your project, include the following:
@@ -45,8 +49,25 @@ const cc = require('connectwise-control-api')('https://yourinstance.screenconnec
 ]
 ```
 
+---
+
 `cc.renameSessionGroup('Old Session Name', 'New Session Name');`
 
 ### Example Response
 
 No response.
+
+---
+
+`cc.getAgentDownload(organizationname)`
+
+### Example Response
+
+This function returns of a buffer of the agent's MSI download. You could pass this to NodeJS's `fs` module for downloading like this:
+
+```
+const fs = require('fs');
+
+var buffer = await cc.getAgentDownload('Your Organization');
+fs.writeFileSync('Your Organization.msi', buffer);
+```

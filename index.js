@@ -7,6 +7,15 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
         var headers = null;
 
         /*
+            Get agent download as buffer.
+        */
+        module.getAgentDownload = async (organization) => {
+            await this.getWebSession();
+
+            return await this.getAgentDownload(organization);
+        }
+
+        /*
             Gets the entire list of sessions from ConnectWise Control.
         */
         module.getSessionGroups = async () => {
@@ -49,6 +58,49 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
 
             await rp(params);
         };
+
+        /**
+         * @param {string} organization - The organization you want the agent to be assigned to.
+         */
+        getAgentDownload = async (organization) => {
+            let params = {
+                method: 'POST',
+                uri: `${instanceUrl}/Services/ExtensionService.ashx/GetInstanceUserInfo`,
+                jar,
+                json: true
+            };
+
+            const instanceInfo = await rp(params); // Gets the instance key
+
+            params.uri = `${instanceUrl}/Services/LicenseService.ashx/GetLicenseInfo`;
+
+            const licenseInfo = await rp(params); // Gets the license ID which helps generate the relay host
+
+            const instanceKey = instanceInfo.publicKey;
+            const instance = `instance-${licenseInfo.LicenseRuntimeInfos[0].LicenseID}-relay.screenconnect.com`; // For now.
+
+            // Resetting params for agent download
+            params = {
+                method: 'GET',
+                uri: `${instanceUrl}/Bin/ConnectWiseControl.ClientSetup.msi`,
+                qs: {
+                    h: instance,
+                    p: '443',
+                    k: instanceKey,
+                    e: 'Access',
+                    y: 'Guest',
+                    t: '',
+                    c: organization
+                },
+                jar,
+                encoding: null,
+                resolveWithFullResponse: true
+            };
+
+            const res = await rp(params); // Downloading the file
+
+            return res.body; // Should be the buffer of the file
+        }
 
         getSessionGroups = async () => {
             const params = {
