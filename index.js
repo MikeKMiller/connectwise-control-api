@@ -61,7 +61,6 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
                 // Resorting alphabetically
                 groups = _.orderBy(groups, 'Name', 'asc');
 
-                console.log(JSON.stringify(groups));
                 await this.saveSessionGroups(groups);
             } else {
                 throw new Error('The session group you specified already exists.');
