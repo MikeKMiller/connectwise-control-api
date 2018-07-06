@@ -1,5 +1,6 @@
 const rp = require('request-promise');
 const jar = rp.jar();
+const _ = require('lodash');
 
 module.exports = function ConnectWiseControl(instanceUrl, username, password) {
     {
@@ -24,6 +25,49 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
             return await this.getSessionGroups();
         };
 
+        /*
+            Often times the session groups are used for clients and it'd be easiest to sort them alphabetically.
+        */
+        module.sortSessionGroups = async () => {
+            await this.getWebSession();
+
+            var groups = await this.getSessionGroups();
+
+            groups = _.orderBy(groups, 'Name', 'asc');
+
+            await this.saveSessionGroups(groups);
+        };
+
+        /**
+         * @param {string} organization - The new organizations name.
+        */
+
+        module.createSessionGroup = async (organization) => {
+            await this.getWebSession();
+
+            var groups = await this.getSessionGroups();
+
+            var existingGroups = groups.filter(group => group.Name === organization);
+
+            // Making sure the group doesn't already exist
+            if (existingGroups.length === 0) {
+                groups.push({
+                    Name: organization,
+                    SessionFilter: `CustomProperty1='${organization}'`,
+                    SessionType: 2,
+                    SubgroupExpressions: ''
+                });
+
+                // Resorting alphabetically
+                groups = _.orderBy(groups, 'Name', 'asc');
+
+                console.log(JSON.stringify(groups));
+                await this.saveSessionGroups(groups);
+            } else {
+                throw new Error('The session group you specified already exists.');
+            }
+        };
+
         /**
          * @param { integer } id - The session group's ID.
          */
@@ -37,26 +81,13 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
 
             let groups = await this.getSessionGroups();
 
-            groups.map(group => {
+            var updatedGroups = groups.map(group => {
                 if (group.Name === oldName) {
                     group.Name = newName;
                 }
             });
 
-            let body = [];
-
-            body.push(groups); // For some stupid reason. Control has an array inside of an array.
-
-            // Sending in the entire list with the updated group.
-            const params = {
-                method: 'POST',
-                uri: `${instanceUrl}/Services/SessionGroupService.ashx/SaveSessionGroups`,
-                body: body,
-                jar,
-                json: true
-            };
-
-            await rp(params);
+            await this.saveSessionGroups(updatedGroups);
         };
 
         /**
@@ -113,6 +144,37 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
             const groups = await rp(params);
 
             return groups;
+        }
+
+        // /*
+        //     Gets a list of computers in the specified session group.
+        // */
+
+        // /**
+        //  * @param {string} session - 'Session Group'
+        // */
+        // getHostSessions = async () => {
+        //     // Specifiy session and possibly page number to get list of computers. Pick only certain attributes and get the company name.
+        // }
+
+        /**
+         * @param {group[]} groups - Groups based on getSessionGroups
+         */
+        saveSessionGroups = async (groups) => {
+            let body = [];
+
+            body.push(groups); // For some stupid reason. Control has an array inside of an array.
+
+            // Sending in the entire list with the updated group.
+            const params = {
+                method: 'POST',
+                uri: `${instanceUrl}/Services/SessionGroupService.ashx/SaveSessionGroups`,
+                body: body,
+                jar,
+                json: true
+            };
+
+            await rp(params);
         }
 
         /*

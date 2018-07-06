@@ -13,6 +13,7 @@
     "author": "Jack Musick",
     "license": "ISC",
     "dependencies": {
+        "lodash": "^4.17.10",
         "request": "^2.87.0",
         "request-promise": "^4.2.2"
     }

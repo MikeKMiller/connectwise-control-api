@@ -22,7 +22,9 @@ const cc = require('connectwise-control-api')('https://yourinstance.screenconnec
 
 # Functions
 
-`cc.getSessionGroups()`
+## Get Session Groups
+
+`await cc.getSessionGroups();`
 
 ### Example Response
 
@@ -49,17 +51,25 @@ const cc = require('connectwise-control-api')('https://yourinstance.screenconnec
 ]
 ```
 
----
+## Sort Session Groups Alphabetically
 
-`cc.renameSessionGroup('Old Session Name', 'New Session Name');`
+`await cc.sortSessionGroups();`
+
+## Create a Session Group
+
+`await cc.createSessionGroup('Your New Group')`
+
+## Rename a Session Group
+
+`await cc.renameSessionGroup('Old Session Name', 'New Session Name');`
 
 ### Example Response
 
 No response.
 
----
+## Get an Agent MSI as a Buffer
 
-`cc.getAgentDownload(organizationname)`
+`await cc.getAgentDownload(organizationname);`
 
 ### Example Response
 
