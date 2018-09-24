@@ -14,15 +14,24 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
             await this.getWebSession();
 
             return await this.getAgentDownload(organization);
-        }
+        };
 
         /*
-            Gets the entire list of sessions from ConnectWise Control.
+            Gets the entire list of groups from ConnectWise Control.
         */
         module.getSessionGroups = async () => {
             await this.getWebSession();
 
             return await this.getSessionGroups();
+        };
+
+        /*
+            Gets the entire list of sessions from ConnectWise Control.
+        */
+        module.getSessions = async () => {
+            await this.getWebSession();
+
+            return await this.getSessions();
         };
 
         /*
@@ -143,6 +152,20 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
             const groups = await rp(params);
 
             return groups;
+        }
+
+        getSessions = async () => {
+            const params = {
+                method: 'POST',
+                uri: `${instanceUrl}/Services/PageService.ashx/GetHostSessionInfo`,
+                jar,
+                body: [2, null, null, null, 3, null],
+                json: true
+            };
+
+            const res = await rp(params);
+
+            return res.Sessions;
         }
 
         // /*

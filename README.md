@@ -26,8 +26,6 @@ const cc = require('connectwise-control-api')('https://yourinstance.screenconnec
 
 `await cc.getSessionGroups();`
 
-### Example Response
-
 ```
 [
     {
@@ -50,6 +48,57 @@ const cc = require('connectwise-control-api')('https://yourinstance.screenconnec
     }
 ]
 ```
+
+## Get Sessions
+
+`await cc.getSessions();`
+
+```
+[
+  {
+    "ActiveConnections": [
+      {
+        "ConnectedTime": 123456,
+        "ConnectionID": "xxxxx-xxxxx-xxxxx-xxxxx-xxxxxxx",
+        "ParticipantName": "",
+        "ProcessType": 2
+      }
+    ],
+    "Attributes": 1,
+    "Code": "",
+    "CustomPropertyValues": [
+      "Session Group Name",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "GuestClientVersion": "6.7.19388.6796",
+    "GuestIdleTime": 123,
+    "GuestLoggedOnUserDomain": "DOMAIN",
+    "GuestLoggedOnUserName": "user",
+    "GuestOperatingSystemName": "Windows 7 Professional",
+    "GuestOperatingSystemVersion": "6.1.7601",
+    "Host": "",
+    "IsPublic": false,
+    "LastAlteredVersion": 12341234,
+    "LastConnectedEventTime": 1234,
+    "LastInitiatedJoinEventTime": -1,
+    "Name": "COMPUTER1",
+    "Notes": "",
+    "Permissions": 129019,
+    "QueuedEvents": [],
+    "SessionID": "xxxxx-xxxxx-xxxxx-xxxxx-xxxxxxx",
+    "SessionType": 2,
+    "UnacknowledgedEvents": []
+  }
+]
+```
+
+### Example Response
 
 ## Sort Session Groups Alphabetically
 

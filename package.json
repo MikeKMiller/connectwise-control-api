@@ -1,6 +1,6 @@
 {
     "name": "connectwise-control-api",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Programmatically manage your resources in ConnectWise Control, a.k.a ScreenConnect.",
     "main": "index.js",
     "scripts": {
