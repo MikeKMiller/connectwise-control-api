@@ -204,16 +204,15 @@ module.exports = function ConnectWiseControl(instanceUrl, username, password) {
         */
         getWebSession = async () => {
             if (!headers) { // Only set to determine if we've already logged in.
-
                 const params = {
                     method: 'POST',
                     uri: `${instanceUrl}/Login?Reason=7`,
                     form: {
-                        __VIEWSTATE: '/wEPDwUKMTM5ODA0NTQ4MA8WAh4TVmFsaWRhdGVSZXF1ZXN0TW9kZQIBFgJmD2QWBAIBD2QWAgIFDxYCHgRocmVmBUp+L0FwcF9UaGVtZXMvQ292aS9EZWZhdWx0LmNzcz9fX0NhY2hlPWVjOWZlZWRlLWJkN2MtNGQ0My05N2EzLWE5ZTI4NGJjOGM0NWQCAw9kFgICAQ9kFgZmDw8WAh4EVGV4dAVBWW91IGhhdmUgYmVlbiBsb2dnZWQgb3V0IG9mIHRoZSBzeXN0ZW0uIFBsZWFzZSBsb2dpbiB0byBjb250aW51ZS5kZAIBD2QWAmYPZBYCAgUPDw9kFgIeDGF1dG9jb21wbGV0ZQUDb2ZmZWQCBA9kFgJmDxYCHgtfIUl0ZW1Db3VudAIBFgJmD2QWAgIBDw8WBB4PQ29tbWFuZEFyZ3VtZW50BSQxYzM4NGVhNS04OTA2LTRlN2MtOTFjZS1mZjYwN2ViMTQyZTcfAgUVQ29ubmVjdCB3aXRoIE9uZUxvZ2luZGQYAQUUY3RsMDAkTWFpbiRtdWx0aVZpZXcPD2RmZAPfLlxFPzGXFeqly4Xb5GuTABj3SOpY5ZP2tKamFxBQ',
+                        __VIEWSTATE: '/wEPDwUKLTI1ODYwMDY4Nw8WBB4QQ3VycmVudFZpZXdJbmRleAIBHhNWYWxpZGF0ZVJlcXVlc3RNb2RlAgEWAmYPZBYEAgEPZBYCAgUPFgIeBGhyZWYFSn4vQXBwX1RoZW1lcy9Db3ZpL0RlZmF1bHQuY3NzP19fQ2FjaGU9M2M0NGE1ODctNzM4Zi00ZmRhLWIzNDItMTczZjE5N2U1NGI5ZAIDD2QWAgIBD2QWFAIBDxYCHgdWaXNpYmxlaGQCAw8WAh4JaW5uZXJodG1sBQVMb2dpbmQCBQ8WAh8DaGQCBw8PFgIeBFRleHQFQVlvdSBoYXZlIGJlZW4gbG9nZ2VkIG91dCBvZiB0aGUgc3lzdGVtLiBQbGVhc2UgbG9naW4gdG8gY29udGludWUuZGQCCw9kFgICAw8PD2QWAh4MYXV0b2NvbXBsZXRlBQNvZmZlZAINDw8WAh8DaGRkAg8PEA8WAh8DaGRkZGQCEw8PFgIfA2hkZAIVDw8WAh8DaGRkAhsPZBYCZg8WAh4LXyFJdGVtQ291bnQCARYCZg9kFgICAQ8PFgQeD0NvbW1hbmRBcmd1bWVudAUkMWMzODRlYTUtODkwNi00ZTdjLTkxY2UtZmY2MDdlYjE0MmU3HwUFFUNvbm5lY3Qgd2l0aCBPbmVMb2dpbmRkZAixVY/LoiiBjBt/OFzbS8K807qFTvsAkj6ulkeTm9Qn',
                         __VIEWSTATEGENERATOR: '48701E03',
                         ctl00$Main$userNameBox: username,
                         ctl00$Main$passwordBox: password,
-                        ctl00$Main$ctl05: 'Login'
+                        ctl00$Main$loginButton: 'Login'
                     },
                     jar,
                     resolveWithFullResponse: true,
